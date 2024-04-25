@@ -1,6 +1,8 @@
 package api
 
 import (
+	"bookstore/internal/application"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -14,11 +16,13 @@ type Handler interface {
 }
 
 type handler struct {
+	app     *application.Application
 	service Service
 }
 
-func NewHandler(service Service) Handler {
+func NewHandler(app *application.Application, service Service) Handler {
 	return &handler{
+		app:     app,
 		service: service,
 	}
 }
@@ -26,6 +30,7 @@ func NewHandler(service Service) Handler {
 func (h handler) GetAllBooks(c *gin.Context) {
 	books, err := h.service.GetAllBooks(c.Request.Context())
 	if err != nil {
+		log.Printf("Error fetching books: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to fetch the books"})
 		return
 	}
@@ -35,12 +40,14 @@ func (h handler) GetAllBooks(c *gin.Context) {
 func (h handler) PlaceOrder(c *gin.Context) {
 	var orderRequet Order
 	if err := c.ShouldBindJSON(&orderRequet); err != nil {
+		log.Printf("Invalid request body for placing order: %v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request body"})
 		return
 	}
 
 	userID := "placehoder_user_id"
 	if err := h.service.PlaceOrder(c.Request.Context(), userID, []BookOrder{}); err != nil {
+		log.Printf("Error placing order: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 
 		return
@@ -51,10 +58,12 @@ func (h handler) PlaceOrder(c *gin.Context) {
 func (h handler) CreateAccount(c *gin.Context) {
 	var user User
 	if err := c.ShouldBindJSON(&user); err != nil {
+		log.Printf("Invalid request body for creating account: %v", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid request body"})
 		return
 	}
-	if err := h.service.CreateAccount(c.Request.Context(), user.Email); err != nil {
+	if err := h.service.CreateAccount(c.Request.Context(), user.Email, user.Password); err != nil {
+		log.Printf("Error creating account: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -67,6 +76,7 @@ func (h handler) GetOrderHistory(c *gin.Context) {
 
 	orders, err := h.service.GetOrderHistory(c.Request.Context(), userID)
 	if err != nil {
+		log.Printf("Error fetching order history: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

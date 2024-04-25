@@ -7,7 +7,7 @@ import (
 
 type Service interface {
 	GetAllBooks(ctx context.Context) ([]Book, error)
-	CreateAccount(ctx context.Context, email string) error
+	CreateAccount(ctx context.Context, email, password string) error
 	PlaceOrder(ctx context.Context, email string, books []BookOrder) error
 	GetOrderHistory(ctx context.Context, email string) ([]Order, error)
 }
@@ -32,9 +32,9 @@ func (s service) GetAllBooks(ctx context.Context) ([]Book, error) {
 	return books, nil
 }
 
-func (s service) CreateAccount(ctx context.Context, email string) error {
+func (s service) CreateAccount(ctx context.Context, email, password string) error {
 
-	return s.repo.CreateAccount(ctx, email)
+	return s.repo.CreateAccount(ctx, email, password)
 }
 
 func (s service) PlaceOrder(ctx context.Context, email string, books []BookOrder) error {

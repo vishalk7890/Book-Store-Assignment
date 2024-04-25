@@ -1,52 +1,3 @@
-// package api
-
-// import (
-// 	"bookstore/db"
-// 	"bookstore/internal/application"
-// 	"context"
-// )
-
-// type Repository interface {
-// 	GetAllBooks(ctx context.Context) ([]Book, error)
-// 	PlaceOrder(ctx context.Context, email string, books []BookOrder) error
-// 	CreateAccount(ctx context.Context, email string) error
-// 	GetOrderHistory(ctx context.Context, email string) ([]Order, error)
-// }
-
-// type repository struct {
-// 	app *application.Application
-// 	db  *db.PostgresDB
-// }
-
-// func NewRepository(app *application.Application, dbRepo *db.PostgresDB) Repository {
-// 	return &repository{
-// 		app: app,
-// 		db:  dbRepo,
-// 	}
-// }
-
-// func (r *repository) CreateAccount(ctx context.Context, email string) error {
-
-// 	return r.db.CreateAccount(ctx, email)
-// }
-
-// func (r *repository) GetAllBooks(ctx context.Context) ([]Book, error) {
-
-// 	return r.db.GetAllBooks(ctx)
-
-// }
-
-// func (r *repository) PlaceOrder(ctx context.Context, email string, books []BookOrder) error {
-
-// 	// return r.db.PlaceOrder(ctx, email, books)
-// 	return nil
-// }
-
-// func (r *repository) GetOrderHistory(ctx context.Context, email string) ([]Order, error) {
-
-// 	return r.db.GetOrderHistory(ctx, email)
-// }
-
 package api
 
 import (
@@ -55,7 +6,10 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 	"log"
+
+	_ "github.com/lib/pq"
 )
 
 type PostgresDB struct {
@@ -63,6 +17,7 @@ type PostgresDB struct {
 }
 
 func NewPostgresDB(cfg *config.Config) (*PostgresDB, error) {
+	//db, err := gorm.Open(postgres.Open(cfg.DBConnectionString()))
 	db, err := sql.Open("postgres", cfg.DBConnectionString())
 	if err != nil {
 		return nil, err
@@ -70,12 +25,13 @@ func NewPostgresDB(cfg *config.Config) (*PostgresDB, error) {
 	return &PostgresDB{
 		db: db,
 	}, nil
+
 }
 
 type Repository interface {
 	GetAllBooks(ctx context.Context) ([]Book, error)
 	PlaceOrder(ctx context.Context, email string, books []BookOrder) error
-	CreateAccount(ctx context.Context, email string) error
+	CreateAccount(ctx context.Context, email, password string) error
 	GetOrderHistory(ctx context.Context, email string) ([]Order, error)
 }
 
@@ -91,14 +47,13 @@ func NewRepository(app *application.Application, dbRepo PostgresDB) Repository {
 	}
 }
 
-func (r *repository) CreateAccount(ctx context.Context, email string) error {
-
-	query := "INSERT INTO users (email) VALUES ($1)"
-	_, err := r.db.db.ExecContext(ctx, query, email)
+func (r *repository) CreateAccount(ctx context.Context, email, password string) error {
+	query := "INSERT INTO users (email, password) VALUES ($1, $2)"
+	_, err := r.db.db.Exec(query, email, password)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to create account: %v", err)
 	}
-	return errors.New("not implemented")
+	return nil
 }
 
 func (r *repository) GetAllBooks(ctx context.Context) ([]Book, error) {

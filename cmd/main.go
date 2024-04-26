@@ -8,6 +8,12 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	// "bookstore/health"
+	// "bookstore/internal/api"
+	// "bookstore/internal/application"
+	// "bookstore/internal/application/config"
+	// "fmt"
+	// "github.com/gin-gonic/gin"
 )
 
 func main() {

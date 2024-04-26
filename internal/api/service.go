@@ -10,6 +10,8 @@ type Service interface {
 	CreateAccount(ctx context.Context, email, password string) error
 	PlaceOrder(ctx context.Context, email string, books []BookOrder) error
 	GetOrderHistory(ctx context.Context, email string) ([]Order, error)
+	GetUserIDByEmail(ctx context.Context, email string) (string, error)
+	GetBookByID(ctx context.Context, bookID string) (Book, error)
 }
 
 type service struct {
@@ -38,10 +40,39 @@ func (s service) CreateAccount(ctx context.Context, email, password string) erro
 }
 
 func (s service) PlaceOrder(ctx context.Context, email string, books []BookOrder) error {
+	// userID, err := s.repo.GetUserIDByEmail(ctx, email)
+	// if err != nil {
+	// 	return fmt.Errorf("failed to get userID:%v", err)
+	// }
+	// if err := s.repo.PlaceOrder(ctx, userID, books); err != nil {
+	// 	return fmt.Errorf("failed to place order: %v", err)
+	// }
 
 	return s.repo.PlaceOrder(ctx, email, books)
+	//return nil
 }
+
+// func (s service) PlaceOrder(ctx context.Context, email string, books []BookOrder) error {
+// 	userID, err := s.repo.GetUserIDByEmail(ctx, email)
+// 	if err != nil {
+// 		return fmt.Errorf("failed to get userID:%v", err)
+// 	}
+// 	if err := s.repo.PlaceOrder(ctx, userID, books); err != nil {
+// 		return fmt.Errorf("failed to place order: %v", err)
+// 	}
+
+//		//return s.repo.PlaceOrder(ctx, email, books)
+//		return nil
+//	}
 func (s service) GetOrderHistory(ctx context.Context, email string) ([]Order, error) {
 
 	return s.repo.GetOrderHistory(ctx, email)
+}
+
+func (s service) GetUserIDByEmail(ctx context.Context, email string) (string, error) {
+	return s.repo.GetUserIDByEmail(ctx, email)
+}
+
+func (s service) GetBookByID(ctx context.Context, bookID string) (Book, error) {
+	return s.repo.GetBookByID(ctx, bookID)
 }

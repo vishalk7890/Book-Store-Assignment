@@ -44,9 +44,10 @@ func setupRouter(app *application.Application) *gin.Engine {
 	bookStoreHandler := api.NewHandler(app, bookStoreService)
 	r.GET("/health", health.Check)
 	r.GET("/books", bookStoreHandler.GetAllBooks)
-	r.POST("/account", bookStoreHandler.CreateAccount)
-	r.POST("/order", bookStoreHandler.PlaceOrder)
+	r.POST("/accounts", bookStoreHandler.CreateAccount)
+	r.POST("/orders", bookStoreHandler.PlaceOrder)
 	r.GET("/order/history", bookStoreHandler.GetOrderHistory)
+	r.GET("/users/:email", bookStoreHandler.GetUserIDByEmail)
 	return r
 
 }

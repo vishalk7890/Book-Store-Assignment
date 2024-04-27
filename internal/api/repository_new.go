@@ -50,6 +50,12 @@ func NewRepository(app *application.Application, dbRepo PostgresDB) Repository {
 
 func (r *repository) CreateAccount(ctx context.Context, email, password string) error {
 	query := "INSERT INTO users (email, password) VALUES ($1, $2)"
+	// err := utitlity.ExecuteInsertQuery(ctx, r.db.db, query, email, password)
+	// //return fmt.Errorf("failed to create account: %v", err)
+	// if err != nil {
+	// 	return fmt.Errorf("failed to create account: %v", err)
+	// }
+	// return nil
 	_, err := r.db.db.Exec(query, email, password)
 	if err != nil {
 		return fmt.Errorf("failed to create account: %v", err)

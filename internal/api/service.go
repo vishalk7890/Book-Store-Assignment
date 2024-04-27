@@ -3,6 +3,7 @@ package api
 import (
 	"bookstore/internal/application"
 	"context"
+	"errors"
 )
 
 type Service interface {
@@ -35,8 +36,11 @@ func (s service) GetAllBooks(ctx context.Context) ([]Book, error) {
 }
 
 func (s service) CreateAccount(ctx context.Context, email, password string) error {
-
-	return s.repo.CreateAccount(ctx, email, password)
+	err := s.repo.CreateAccount(ctx, email, password)
+	if err != nil {
+		return errors.New("failed to create account")
+	}
+	return nil
 }
 
 func (s service) PlaceOrder(ctx context.Context, email string, books []BookOrder) error {

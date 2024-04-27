@@ -85,6 +85,10 @@ func (h handler) GetOrderHistory(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+	if len(orders) == 0 {
+		c.JSON(http.StatusOK, gin.H{"message": "No Order found for this user"})
+		return
+	}
 
 	c.JSON(http.StatusOK, orders)
 }
@@ -143,5 +147,9 @@ func (h handler) GetUserIDByEmail(c *gin.Context) {
 		return
 	}
 
+	if userID == "" {
+		c.JSON(http.StatusOK, gin.H{"message": "No user found for this email"})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{"userID": userID})
 }

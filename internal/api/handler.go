@@ -62,6 +62,36 @@ func (h handler) CreateAccount(c *gin.Context) {
 	c.JSON(http.StatusCreated, "created")
 }
 
+// func (h handler) GetOrderHistory(c *gin.Context) {
+// 	// Get the email from the query parameters
+// 	email := c.Query("email")
+// 	if email == "" {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": "email parameter is required"})
+// 		return
+// 	}
+
+// 	// Get the user ID from the email
+// 	userID, err := h.service.GetUserIDByEmail(c.Request.Context(), email)
+// 	if err != nil {
+// 		log.Printf("Error getting user ID: %v", err)
+// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to get user ID"})
+// 		return
+// 	}
+
+// 	// Now you have the user ID, you can use it to get the order history
+// 	orders, err := h.service.GetOrderHistory(c.Request.Context(), userID)
+// 	if err != nil {
+// 		log.Printf("Error fetching order history: %v", err)
+// 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+// 		return
+// 	}
+// 	if len(orders) == 0 {
+// 		c.JSON(http.StatusOK, gin.H{"message": "No Order found for this user"})
+// 		return
+// 	}
+
+//		c.JSON(http.StatusOK, orders)
+//	}
 func (h handler) GetOrderHistory(c *gin.Context) {
 	// Get the email from the query parameters
 	email := c.Query("email")
@@ -85,6 +115,7 @@ func (h handler) GetOrderHistory(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
 	if len(orders) == 0 {
 		c.JSON(http.StatusOK, gin.H{"message": "No Order found for this user"})
 		return

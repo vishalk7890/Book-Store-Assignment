@@ -26,12 +26,12 @@ func NewAppMock() *Application {
 	for k, v := range env {
 		err := os.Setenv(k, v)
 		if err != nil {
-			errors.New("load test case internal errror")
+			_ = errors.New("load test case internal errror")
 		}
 	}
 	app, err := Load()
 	if err != nil {
-		errors.New("cannot load application")
+		_ = errors.New("cannot load application")
 		return nil
 	}
 	return app

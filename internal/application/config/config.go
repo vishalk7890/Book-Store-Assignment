@@ -16,7 +16,7 @@ type Config struct {
 	AppPort    int    `mapstructure:"PORT"`
 }
 
-var app Config
+//var app Config
 
 // func Load() (*Config, error) {
 // 	port, err := strconv.Atoi(os.Getenv("PORT"))

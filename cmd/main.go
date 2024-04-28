@@ -8,12 +8,6 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	// "bookstore/health"
-	// "bookstore/internal/api"
-	// "bookstore/internal/application"
-	// "bookstore/internal/application/config"
-	// "fmt"
-	// "github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -24,24 +18,25 @@ func main() {
 		panic(err)
 	}
 	app := application.NewAppMock()
-	r := setupRouter(app)
+	r := setupRouter(app, config)
 	if err := r.Run(fmt.Sprintf(":%d", config.AppPort)); err != nil {
 		panic(err)
 	}
 
 }
 
-func setupRouter(app *application.Application) *gin.Engine {
+func setupRouter(app *application.Application, config *config.Config) *gin.Engine {
 	r := gin.New()
 	r.Use(gin.Recovery())
 
-	db, err := api.NewPostgresDB(&config.Config{
-		DBHost:     "localhost",
-		DBPort:     5432,
-		DBUser:     "postgres",
-		DBPassword: "admin",
-		DBName:     "bookstore",
-	})
+	// db, err := api.NewPostgresDB(&config.Config{
+	// 	DBHost:     "localhost",
+	// 	DBPort:     5432,
+	// 	DBUser:     "postgres",
+	// 	DBPassword: "admin",
+	// 	DBName:     "bookstore",
+	// })
+	db, err := api.NewPostgresDB(config)
 	if err != nil {
 		panic(err)
 	}

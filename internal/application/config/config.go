@@ -16,26 +16,6 @@ type Config struct {
 	AppPort    int    `mapstructure:"PORT"`
 }
 
-//var app Config
-
-// func Load() (*Config, error) {
-// 	port, err := strconv.Atoi(os.Getenv("PORT"))
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	DBPORT, _ := strconv.Atoi(os.Getenv("DBPORT"))
-// 	var c = Config{
-// 		DBHost:     getEnv("DB_HOST", "localhost"),
-// 		DBPort:     DBPORT,
-// 		DBUser:     getEnv("DB_USER", "postgres"),
-// 		DBPassword: getEnv("DB_PASSWORD", ""),
-// 		DBName:     getEnv("DB_NAME", "bookstore"),
-// 		AppPort:    port,
-// 	}
-// 	return &c, nil
-
-// }
-
 func Load() (*Config, error) {
 	portStr := os.Getenv("PORT")
 	if portStr == "" {

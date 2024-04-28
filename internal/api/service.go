@@ -56,18 +56,6 @@ func (s service) PlaceOrder(ctx context.Context, email string, books []BookOrder
 	//return nil
 }
 
-// func (s service) PlaceOrder(ctx context.Context, email string, books []BookOrder) error {
-// 	userID, err := s.repo.GetUserIDByEmail(ctx, email)
-// 	if err != nil {
-// 		return fmt.Errorf("failed to get userID:%v", err)
-// 	}
-// 	if err := s.repo.PlaceOrder(ctx, userID, books); err != nil {
-// 		return fmt.Errorf("failed to place order: %v", err)
-// 	}
-
-//		//return s.repo.PlaceOrder(ctx, email, books)
-//		return nil
-//	}
 func (s service) GetOrderHistory(ctx context.Context, email string) ([]Order, error) {
 
 	return s.repo.GetOrderHistory(ctx, email)

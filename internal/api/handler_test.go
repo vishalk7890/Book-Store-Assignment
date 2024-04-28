@@ -230,12 +230,12 @@ func Test_PlaceOrder(t *testing.T) {
 			email:        "test@example.com",
 			userID:       "user123",
 			serviceError: nil,
-			wantBody:     "order placed successfully", // Direct string comparison
+			wantBody:     "order placed successfully",
 			wantCode:     http.StatusCreated,
 		},
 		{
 			name:         "invalid_request_body",
-			requestBody:  "invalid", // invalid JSON request body
+			requestBody:  "invalid",
 			email:        "test@example.com",
 			userID:       "",
 			serviceError: nil,
@@ -264,8 +264,8 @@ func Test_PlaceOrder(t *testing.T) {
 			},
 			email:        "test@example.com",
 			userID:       "user123",
-			serviceError: errors.New("failed to get user ID"), // Corrected error message
-			wantBody:     `{"error":"failed to get user ID"}`, // Corrected expected response body
+			serviceError: errors.New("failed to get user ID"),
+			wantBody:     `{"error":"failed to get user ID"}`,
 			wantCode:     http.StatusInternalServerError,
 		},
 	}
@@ -288,7 +288,7 @@ func Test_PlaceOrder(t *testing.T) {
 			actualBody := strings.Trim(w.Body.String(), `"`)
 
 			assert.Equal(t, tt.wantCode, w.Code)
-			assert.Equal(t, tt.wantBody, actualBody) // Direct string comparison
+			assert.Equal(t, tt.wantBody, actualBody)
 		})
 	}
 }

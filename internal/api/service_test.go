@@ -19,22 +19,22 @@ func Test_Service_CreateAccount(t *testing.T) {
 		name        string
 		email       string
 		password    string
-		repoErr     error // Error to simulate repository behavior
-		expectedErr error // Expected error from service method
+		repoErr     error
+		expectedErr error
 	}{
 		{
 			name:        "Successful account creation",
 			email:       "test@example.com",
 			password:    "password123",
-			repoErr:     nil, // No error from the repository
-			expectedErr: nil, // No error expected from the service method
+			repoErr:     nil,
+			expectedErr: nil,
 		},
 		{
 			name:        "Repository error",
 			email:       "test@example.com",
 			password:    "password123",
 			repoErr:     errors.New("repository error"),
-			expectedErr: errors.New("failed to create account"), // Expected error from the service method
+			expectedErr: errors.New("failed to create account"),
 		},
 	}
 

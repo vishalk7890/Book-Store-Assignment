@@ -28,7 +28,7 @@ type Book struct {
 type BookOrder struct {
 	BookID   string `json:"bookId"`
 	Quantity int    `json:"quantity"`
-	Title    string `json:"titles"`
+	Title    string `json:"title"`
 }
 
 type BookOrdersReq struct {

@@ -1,36 +1,47 @@
 package api_test
 
-// type mockDB struct {
+// import (
+// 	"bookstore/internal/api"
+// 	"bookstore/internal/application"
+// 	"context"
+// 	"testing"
+
+// 	"github.com/stretchr/testify/assert"
+// 	"github.com/stretchr/testify/mock"
+// )
+
+// // MockDB implements the PostgresDB interface for testing purposes.
+// type MockPostgresDB struct {
 // 	mock.Mock
 // }
 
-// func (m *mockDB) ExecContext(ctx context.Context, query string, args ...interface{}) (sql.Result, error) {
-// 	argsMock := m.Called(ctx, query, args)
-// 	return argsMock.Get(0).(sql.Result), argsMock.Error(1)
+// func (m *MockPostgresDB) GetAllBooks(ctx context.Context) ([]api.Book, error) {
+// 	args := m.Called(ctx)
+// 	return args.Get(0).([]api.Book), args.Error(1)
 // }
 
-// type mockPostgresDB struct {
-// 	*mockDB
+// func (m *MockPostgresDB) PlaceOrder(ctx context.Context, email string, books []api.BookOrder) error {
+// 	args := m.Called(ctx, email, books)
+// 	return args.Error(0)
 // }
 
-// func (m *mockPostgresDB) BeginTx(ctx context.Context, opts *sql.TxOptions) (*sql.Tx, error) {
-// 	// Implement BeginTx as needed for your test cases
-// 	return &sql.Tx{}, nil
-// }
+// // Implement other methods of the PostgresDB interface similarly
 
-// func TestCreateAccount(t *testing.T) {
-// 	// Prepare mock
-// 	dbMock := &mockPostgresDB{mockDB: &mockDB{}}
-// 	// Create repository instance with mock
-// 	repo := api.NewRepository(&application.Application{}, dbMock)
+// func TestCreateAccount_Success(t *testing.T) {
+// 	// Create a mock instance of PostgresDB
+// 	mockDB := new(MockPostgresDB)
+// 	// Assume the database operation succeeds without errors
+// 	mockDB.On("CreateAccount", mock.Anything, mock.Anything, mock.Anything).Return(nil)
 
-// 	// Set expectations
-// 	dbMock.On("ExecContext", mock.Anything, "INSERT INTO users (email, password) VALUES ($1, $2)", "test@example.com", "password123").Return(nil, nil)
+// 	// Create the repository with the mock database
+// 	repo := api.NewRepository(&application.Application{}, mockDB)
 
 // 	// Call the function under test
 // 	err := repo.CreateAccount(context.Background(), "test@example.com", "password123")
+
+// 	// Assert that no error occurred
 // 	assert.NoError(t, err)
 
-// 	// Assert expectations were met
-// 	dbMock.AssertExpectations(t)
+// 	// Assert that the CreateAccount method on the mock was called with the correct arguments
+// 	mockDB.AssertCalled(t, "CreateAccount", mock.Anything, "test@example.com", "password123")
 // }

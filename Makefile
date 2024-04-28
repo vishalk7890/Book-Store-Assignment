@@ -8,7 +8,7 @@ LOCAL_ENV = \
 	DBHost="localhost" \
 	DBPort=5432 \
 	DBUser="postgres" \
-	DBPassword="admin" \
+	DB_PASSWORD="admin" \
 	DBName="bookStore"
 
 .PHONY: run

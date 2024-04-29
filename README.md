@@ -53,3 +53,11 @@ This is a RESTful API for a bookstore application built using Go and the Gin web
 To run the tests:
 ```bash
 make test
+```
+## Other Targets
+Include other targets like:
+- Staticchecks
+- gosec
+- lint
+- govulncheck
+  

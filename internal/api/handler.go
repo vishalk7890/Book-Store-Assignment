@@ -120,6 +120,7 @@ func (h handler) PlaceOrder(c *gin.Context) {
 			Quantity: item.Quantity,
 		})
 	}
+
 	if err := h.service.PlaceOrder(c.Request.Context(), userID, books); err != nil {
 		log.Printf("Error placing order: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

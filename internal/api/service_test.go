@@ -33,8 +33,8 @@ func Test_Service_CreateAccount(t *testing.T) {
 			name:        "Repository error",
 			email:       "test@example.com",
 			password:    "password123",
-			repoErr:     errors.New("repository error"),
-			expectedErr: errors.New("failed to create account"),
+			repoErr:     errors.New("failed to create account, repository error"),
+			expectedErr: errors.New("failed to create account, repository error"),
 		},
 	}
 

@@ -3,7 +3,6 @@ package api
 import (
 	"bookstore/internal/application"
 	"context"
-	"errors"
 )
 
 type Service interface {
@@ -28,29 +27,16 @@ func NewService(app *application.Application, repo Repository) Service {
 }
 
 func (s service) GetAllBooks(ctx context.Context) ([]Book, error) {
-	books, err := s.repo.GetAllBooks(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return books, nil
+
+	return s.repo.GetAllBooks(ctx)
 }
 
 func (s service) CreateAccount(ctx context.Context, email, password string) error {
-	err := s.repo.CreateAccount(ctx, email, password)
-	if err != nil {
-		return errors.New("failed to create account")
-	}
-	return nil
+
+	return s.repo.CreateAccount(ctx, email, password)
 }
 
 func (s service) PlaceOrder(ctx context.Context, email string, books []BookOrder) error {
-	// userID, err := s.repo.GetUserIDByEmail(ctx, email)
-	// if err != nil {
-	// 	return fmt.Errorf("failed to get userID:%v", err)
-	// }
-	// if err := s.repo.PlaceOrder(ctx, userID, books); err != nil {
-	// 	return fmt.Errorf("failed to place order: %v", err)
-	// }
 
 	return s.repo.PlaceOrder(ctx, email, books)
 	//return nil

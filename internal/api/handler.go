@@ -14,6 +14,7 @@ type Handler interface {
 	GetOrderHistory(c *gin.Context)
 	CreateAccount(c *gin.Context)
 	GetUserIDByEmail(c *gin.Context)
+	GetBookByID(c *gin.Context)
 }
 
 type handler struct {
@@ -149,4 +150,18 @@ func (h handler) GetUserIDByEmail(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"userID": userID})
+}
+
+func (h handler) GetBookByID(c *gin.Context) {
+	id := c.Query("id")
+	if id == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "id is required"})
+		return
+	}
+	book, err := h.service.GetBookByID(c.Request.Context(), id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to get book"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"book": book})
 }

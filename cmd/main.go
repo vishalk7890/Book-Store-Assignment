@@ -49,6 +49,7 @@ func setupRouter(app *application.Application, config *config.Config) *gin.Engin
 	r.POST("/orders", bookStoreHandler.PlaceOrder)
 	r.GET("/order/history", bookStoreHandler.GetOrderHistory)
 	r.GET("/users/:email", bookStoreHandler.GetUserIDByEmail)
+	r.GET("/book/", bookStoreHandler.GetBookByID)
 	return r
 
 }

@@ -47,7 +47,8 @@ This is a RESTful API for a bookstore application built using Go and the Gin web
 - `POST /accounts`: Create a new user account
 - `POST /orders`: Place a new order
 - `GET /order/history`: Get order history for the authenticated user
-- `GET /users/:email`: Get user ID by email
+- `GET /users/:email`: Get user ID by email query parameter
+- `GET /book_detail`: Get Book Details by bookID query paramter
 
 ## Testing
 To run the tests:

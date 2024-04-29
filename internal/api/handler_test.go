@@ -292,3 +292,45 @@ func Test_PlaceOrder(t *testing.T) {
 		})
 	}
 }
+
+func Test_GetBookByID(t *testing.T) {
+	app := application.NewAppMock()
+	c := context.Background()
+	tests := []struct {
+		name         string
+		id           string
+		serviceError error
+		wantBody     string
+		wantCode     int
+	}{
+		{
+			name:         "id_not_provided",
+			id:           "",
+			serviceError: nil,
+			wantBody:     `{"error":"id is required"}`,
+			wantCode:     http.StatusBadRequest,
+		},
+		{
+			name:         "success_case",
+			id:           "123",
+			serviceError: nil,
+			wantBody:     "{\"book\":{\"id\":\"\",\"title\":\"\",\"author\":\"\",\"description\":\"\",\"price\":0}}",
+			wantCode:     http.StatusOK,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			r := gin.Default()
+			mockService := new(mocks.Service)
+			mockService.On("GetBookByID", c, tt.id).Return(api.Book{}, tt.serviceError)
+
+			r.GET("/book_detail", api.NewHandler(app, mockService).GetBookByID)
+			w := httptest.NewRecorder()
+			req, _ := http.NewRequest("GET", "/book_detail?id="+tt.id, nil)
+			r.ServeHTTP(w, req)
+
+			assert.Equal(t, tt.wantCode, w.Code)
+			assert.Equal(t, tt.wantBody, w.Body.String())
+		})
+	}
+}

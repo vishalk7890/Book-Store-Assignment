@@ -81,6 +81,9 @@ func (r *repository) GetAllBooks(ctx context.Context) ([]Book, error) {
 		}
 		books = append(books, book)
 	}
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating over rows:%v", err)
+	}
 	return books, nil
 
 }
